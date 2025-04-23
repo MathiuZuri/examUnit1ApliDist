@@ -1,6 +1,6 @@
-package com.example.ms_catalogo.service; // Asegúrate de que la ruta del paquete sea correcta
+package com.example.nrs_libro.service; // Asegúrate de que la ruta del paquete sea correcta
 
-import com.example.ms_catalogo.entity.Libro;
+import com.example.nrs_libro.entity.Libro;
 
 import java.util.List;
 import java.util.Optional;

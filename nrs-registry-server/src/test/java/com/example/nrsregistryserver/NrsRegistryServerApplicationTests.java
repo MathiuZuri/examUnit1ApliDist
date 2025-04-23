@@ -1,4 +1,4 @@
-package com.example.msregistryserver;
+package com.example.nrsregistryserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

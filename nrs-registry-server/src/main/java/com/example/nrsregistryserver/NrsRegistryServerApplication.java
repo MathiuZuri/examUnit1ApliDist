@@ -1,4 +1,4 @@
-package com.example.msregistryserver;
+package com.example.nrsregistryserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

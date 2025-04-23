@@ -1,4 +1,4 @@
-package com.example.ms_catalogo.entity;
+package com.example.nrs_libro.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

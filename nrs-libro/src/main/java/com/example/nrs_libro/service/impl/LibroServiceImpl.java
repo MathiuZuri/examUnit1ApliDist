@@ -1,8 +1,8 @@
-package com.example.ms_catalogo.service.impl;
+package com.example.nrs_libro.service.impl;
 
-import com.example.ms_catalogo.entity.Libro;
-import com.example.ms_catalogo.repository.LibroRepository;
-import com.example.ms_catalogo.service.LibroService; // Asegúrate de tener esta interfaz
+import com.example.nrs_libro.entity.Libro;
+import com.example.nrs_libro.repository.LibroRepository;
+import com.example.nrs_libro.service.LibroService; // Asegúrate de tener esta interfaz
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

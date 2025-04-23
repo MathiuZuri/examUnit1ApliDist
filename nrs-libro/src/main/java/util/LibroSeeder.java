@@ -1,7 +1,7 @@
 package util;
 
-import com.example.ms_catalogo.entity.Libro;
-import com.example.ms_catalogo.repository.LibroRepository;
+import com.example.nrs_libro.entity.Libro;
+import com.example.nrs_libro.repository.LibroRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

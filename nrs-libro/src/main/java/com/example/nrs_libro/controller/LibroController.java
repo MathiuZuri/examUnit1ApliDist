@@ -1,7 +1,7 @@
-package com.example.ms_catalogo.controller;
+package com.example.nrs_libro.controller;
 
-import com.example.ms_catalogo.entity.Libro;
-import com.example.ms_catalogo.service.LibroService;
+import com.example.nrs_libro.entity.Libro;
+import com.example.nrs_libro.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

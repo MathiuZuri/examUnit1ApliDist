@@ -1,4 +1,4 @@
-package com.example.msconfigserver;
+package com.example.nrsconfigserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

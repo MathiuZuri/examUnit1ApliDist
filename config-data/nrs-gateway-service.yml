@@ -23,19 +23,3 @@ spring:
           uri: lb://nrs-libro-service
           predicates:
             - Path=/libros/**
-
-
-        - id: ms-kajita-service
-          uri: lb://ms-kajita-service
-          predicates:
-            - Path=/productos/**
-
-        - id: ms-test01post-service
-          uri: lb://ms-test01post-service
-          predicates:
-            - Path=/ventas/**
-
-        - id: ms-cliente-service-route
-          uri: lb://ms-cliente-service
-          predicates:
-            - Path=/clientes/**
