@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: nrs-libro-service # Mantenemos el nombre del servicio
+    name: nrs-usuario-service # Mantenemos el nombre del servicio
 
   datasource:
     url: jdbc:postgresql://localhost:5432/nrs_usuario
@@ -38,4 +38,3 @@ eureka:
   instance:
     hostname: localhost
     lease-renewal-interval-in-seconds: 30
-    lease-expiration-duration-in-seconds: 90 # Agregué esta propiedad del ejemplo
