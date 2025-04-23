@@ -19,10 +19,10 @@ spring:
 
           #cambiar ojjo
       routes:
-        - id: ms-catalogo-service
-          uri: lb://ms-catalogo-service
+        - id: nrs-libro-service
+          uri: lb://nrs-libro-service
           predicates:
-            - Path=/categorias/**
+            - Path=/libros/**
 
 
         - id: ms-kajita-service
