@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: ms-catalogo-service
+    name: nrs-libro-service
 
   datasource:
     url: jdbc:mysql://localhost:3306/nrs-libro
