@@ -22,7 +22,6 @@ spring:
           uri: lb://nrs-libro-service
           predicates:
             - Path=/libros/**
-            -
         - id: nrs-usuario-service
           uri: lb://nrs-usuario-service
           predicates:
