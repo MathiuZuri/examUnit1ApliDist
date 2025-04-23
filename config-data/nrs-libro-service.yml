@@ -6,7 +6,7 @@ spring:
     name: nrs-libro-service
 
   datasource:
-    url: jdbc:h2:mem:ms_libro
+    url: jdbc:h2:mem:nrs_libro
     driver-class-name: org.h2.Driver
     username: sa
     password: password
