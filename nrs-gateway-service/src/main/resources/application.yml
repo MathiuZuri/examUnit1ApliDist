@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: ms-gateway-service
+    name: nrs-gateway-service
   profiles:
     active: development
   config:
