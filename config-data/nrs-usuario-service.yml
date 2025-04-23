@@ -1,0 +1,38 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: nrs-libro-service # Mantenemos el nombre del servicio
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/nrs_usuarios?serverTimezone=America/Lima # Conexión a nrs_usuarios
+    username: root # Reemplaza con tu usuario de MySQL si es diferente
+    password: "" # Reemplaza con tu contraseña de MySQL si tienes una
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  h2:
+    console:
+      enabled: false # Deshabilitamos la consola de H2
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect # Dialecto para MySQL 8
+    hibernate:
+      ddl-auto: update # Ajusta según tu necesidad (create, create-drop, validate)
+    show-sql: true # Muestra las consultas SQL en la consola
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka
+  instance:
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90 # Agregué esta propiedad del ejemplo

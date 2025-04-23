@@ -13,7 +13,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/MathiuZuri/aplicacionesDistribuidas.git # ruta del repositorio git
+          uri: https://github.com/MathiuZuri/examUnit1ApliDist.git # ruta del repositorio git
           searchPaths: config-data
           default-label: main
   security:

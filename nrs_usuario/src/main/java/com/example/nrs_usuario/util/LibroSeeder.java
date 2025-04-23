@@ -1,23 +1,23 @@
-package util;
+package com.example.nrs_usuario.util;
 
-import com.example.nrs_libro.entity.Libro;
-import com.example.nrs_libro.repository.LibroRepository;
+import com.example.nrs_usuario.entity.Libro;
+import com.example.nrs_usuario.repository.UsuarioRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LibroSeeder implements CommandLineRunner {
 
-    private final LibroRepository libroRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public LibroSeeder(LibroRepository libroRepository) {
-        this.libroRepository = libroRepository;
+    public LibroSeeder(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
     public void run(String... args) {
         // Verificamos si ya existen libros para no duplicar
-        if (libroRepository.count() == 0) {
+        if (usuarioRepository.count() == 0) {
             Libro libro1 = new Libro(null, "Cien años de soledad", "978-0307264888", "Gabriel García Márquez", "Vintage", 10, "Novela");
             Libro libro2 = new Libro(null, "Orgullo y prejuicio", "978-0141439518", "Jane Austen", "Penguin Classics", 5, "Romance");
             Libro libro3 = new Libro(null, "1984", "978-0451524935", "George Orwell", "Signet Classics", 12, "Ciencia Ficción");
@@ -29,16 +29,16 @@ public class LibroSeeder implements CommandLineRunner {
             Libro libro9 = new Libro(null, "Los juegos del hambre", "978-0439023481", "Suzanne Collins", "Scholastic Press", 18, "Ciencia Ficción");
             Libro libro10 = new Libro(null, "Steve Jobs", "978-1451648539", "Walter Isaacson", "Simon & Schuster", 6, "Biografía");
 
-            libroRepository.save(libro1);
-            libroRepository.save(libro2);
-            libroRepository.save(libro3);
-            libroRepository.save(libro4);
-            libroRepository.save(libro5);
-            libroRepository.save(libro6);
-            libroRepository.save(libro7);
-            libroRepository.save(libro8);
-            libroRepository.save(libro9);
-            libroRepository.save(libro10);
+            usuarioRepository.save(libro1);
+            usuarioRepository.save(libro2);
+            usuarioRepository.save(libro3);
+            usuarioRepository.save(libro4);
+            usuarioRepository.save(libro5);
+            usuarioRepository.save(libro6);
+            usuarioRepository.save(libro7);
+            usuarioRepository.save(libro8);
+            usuarioRepository.save(libro9);
+            usuarioRepository.save(libro10);
 
             System.out.println("Datos de libros insertados correctamente.");
         } else {
