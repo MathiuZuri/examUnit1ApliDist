@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,89 +14,97 @@ import java.util.Optional;
 @RequestMapping("/prestamos")
 public class PrestamoController {
 
-    @Autowired
-    private PrestamoService prestamoService;
+    private final PrestamoService prestamoService;
 
-    @GetMapping()
+    @Autowired
+    public PrestamoController(PrestamoService prestamoService) {
+        this.prestamoService = prestamoService;
+    }
+
+    @GetMapping
     public ResponseEntity<List<Prestamo>> listarPrestamos() {
-        return new ResponseEntity<>(prestamoService.listar(), HttpStatus.OK);
+        List<Prestamo> prestamos = prestamoService.getAllPrestamos();
+        return new ResponseEntity<>(prestamos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Prestamo> obtenerPrestamoPorId(@PathVariable Integer id) {
-        Optional<Prestamo> prestamoOptional = prestamoService.listarPorId(id);
-        return prestamoOptional.map(prestamo -> new ResponseEntity<>(prestamo, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<Prestamo> prestamoOptional = prestamoService.getPrestamoById(id);
+        return prestamoOptional.map(prestamo -> {
+                    String nombreUsuario = prestamoService.obtenerNombreUsuario(prestamo.getUsuarioId());
+                    prestamo.setUsuarioNombre(nombreUsuario);
+                    return new ResponseEntity<>(prestamo, HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping()
-    public ResponseEntity<?> guardarPrestamo(@RequestBody Prestamo prestamo) {
-        try {
-            Prestamo prestamoGuardado = prestamoService.guardar(prestamo);
-            return new ResponseEntity<>(prestamoGuardado, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping
+    public ResponseEntity<Prestamo> crearPrestamo(@RequestBody Prestamo prestamo) {
+        prestamoService.procesarPrestamo(prestamo); // Usamos el método del servicio que interactúa con libro y usuario
+        return new ResponseEntity<>(prestamo, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarPrestamo(@PathVariable Integer id, @RequestBody Prestamo prestamo) {
-        Optional<Prestamo> prestamoExistenteOptional = prestamoService.listarPorId(id);
-        if (prestamoExistenteOptional.isPresent()) {
-            prestamo.setId(id); // Asegurar que el ID sea el correcto para la actualización
-            return new ResponseEntity<>(prestamoService.actualizar(prestamo), HttpStatus.OK);
+    public ResponseEntity<Prestamo> actualizarPrestamo(@PathVariable Integer id, @RequestBody Prestamo prestamoActualizado) {
+        Optional<Prestamo> prestamoExistente = prestamoService.getPrestamoById(id);
+        if (prestamoExistente.isPresent()) {
+            prestamoActualizado.setId(id);
+            Prestamo prestamoGuardado = prestamoService.savePrestamo(prestamoActualizado);
+            return new ResponseEntity<>(prestamoGuardado, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("No se encontró el préstamo con ID: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarPrestamo(@PathVariable Integer id) {
-        Optional<Prestamo> prestamoOptional = prestamoService.listarPorId(id);
-        if (prestamoOptional.isPresent()) {
-            prestamoService.eliminarPorId(id);
+        if (prestamoService.getPrestamoById(id).isPresent()) {
+            prestamoService.deletePrestamo(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // Puedes agregar endpoints específicos para funcionalidades como:
-    // - Devolver un libro (actualizar fechaDevuelto y estado)
-    // - Listar préstamos activos por usuario
-    // - Listar préstamos vencidos
 
-    // Ejemplo: Endpoint para devolver un préstamo
     @PutMapping("/{id}/devolver")
-    public ResponseEntity<?> devolverPrestamo(@PathVariable Integer id) {
-        Optional<Prestamo> prestamoOptional = prestamoService.listarPorId(id);
-        if (prestamoOptional.isPresent()) {
-            Prestamo prestamo = prestamoOptional.get();
-            if (prestamo.getFechaDevuelto() == null) {
-                prestamo.setFechaDevuelto(LocalDate.now());
-                prestamo.setEstado("devuelto");
-                return new ResponseEntity<>(prestamoService.actualizar(prestamo), HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("El préstamo con ID: " + id + " ya ha sido devuelto.", HttpStatus.BAD_REQUEST);
-            }
+    public ResponseEntity<Void> devolverPrestamo(@PathVariable Integer id) {
+        if (prestamoService.getPrestamoById(id).isPresent()) {
+            prestamoService.procesarDevolucion(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>("No se encontró el préstamo con ID: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // Ejemplo: Endpoint para listar préstamos activos por usuario
-    @GetMapping("/usuario/{usuarioId}/activos")
-    public ResponseEntity<List<Prestamo>> listarPrestamosActivosPorUsuario(@PathVariable Integer usuarioId) {
-        // Asumiendo que tienes un método en el service para esto
-        // return new ResponseEntity<>(prestamoService.listarPrestamosActivosPorUsuario(usuarioId), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    @GetMapping("/usuarios/{usuarioId}")
+    public ResponseEntity<String> obtenerNombreUsuario(@PathVariable Integer usuarioId) {
+        // Corregido el nombre del path variable para consistencia
+        // y alineado con la función del servicio
+        String nombre = prestamoService.obtenerNombreUsuario(usuarioId);
+        if (nombre != null) {
+            return new ResponseEntity<>(nombre, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    // Ejemplo: Endpoint para listar préstamos vencidos
-    @GetMapping("/vencidos")
-    public ResponseEntity<List<Prestamo>> listarPrestamosVencidos() {
-        // Asumiendo que tienes un método en el service para esto
-        // return new ResponseEntity<>(prestamoService.listarPrestamosVencidos(), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    @GetMapping("/libros/{libroId}/titulo")
+    public ResponseEntity<String> obtenerTituloLibro(@PathVariable Integer libroId) {
+        // Corregido el nombre del path variable para consistencia
+        String titulo = prestamoService.obtenerTituloLibro(libroId);
+        if (titulo != null) {
+            return new ResponseEntity<>(titulo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/con-usuario")
+    public ResponseEntity<Prestamo> obtenerPrestamoConUsuario(@PathVariable Integer id) {
+        // Renombrado para mayor claridad y consistencia con las convenciones REST
+        Optional<Prestamo> prestamoOptional = prestamoService.obtenerPrestamoConUsuarioPorId(id);
+        return prestamoOptional.map(prestamo -> new ResponseEntity<>(prestamo, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

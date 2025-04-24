@@ -6,19 +6,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
-
     List<Usuario> listar();
-
     Usuario guardar(Usuario usuario);
-
     Usuario actualizar(Usuario usuario);
-
     Optional<Usuario> listarPorId(Integer id);
-
     void eliminarPorId(Integer id);
-
-    // Puedes agregar métodos específicos para Usuario si los necesitas,
-    // por ejemplo, buscar por email, listar por tipo, etc.
     Optional<Usuario> buscarPorEmail(String email);
+
+    Optional<Usuario> buscarPorEstado(String estado);
+
     List<Usuario> listarPorTipo(String tipo);
+    List<Usuario> listarPorEstado(String estado);
+    Optional<Usuario> obtenerUsuarioPorId(Integer id); // Nuevo método
 }

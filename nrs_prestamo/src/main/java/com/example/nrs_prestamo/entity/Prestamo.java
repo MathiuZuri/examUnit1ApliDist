@@ -3,36 +3,11 @@ package com.example.nrs_prestamo.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @Entity
 //@Data // Puedes usar Lombok para generar getters, setters, equals, hashCode y toString automáticamente
 public class Prestamo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
-    private Integer usuarioId; // ID del usuario que realiza el préstamo
-
-    private String usuarioNombre; // Nombre del usuario al momento del préstamo
-
-    @ElementCollection
-    @CollectionTable(name = "prestamo_libros", joinColumns = @JoinColumn(name = "prestamo_id"))
-    @MapKeyColumn(name = "libro_id")
-    @Column(name = "libro_nombre")
-    private Map<Integer, String> librosPrestados; // Mapa de ID del libro a su nombre
-
-    @Column(nullable = false)
-    private LocalDate fechaPrestamo;
-
-    private LocalDate fechaDevolucion; // Fecha esperada de devolución
-
-    private LocalDate fechaDevuelto; // Fecha real de devolución (puede ser null si aún no se devuelve)
-
-    private String estado; // Por ejemplo: "activo", "devuelto", "vencido"
 
     public Integer getId() {
         return id;
@@ -58,11 +33,11 @@ public class Prestamo {
         this.usuarioNombre = usuarioNombre;
     }
 
-    public Map<Integer, String> getLibrosPrestados() {
+    public Map<Integer, Integer> getLibrosPrestados() {
         return librosPrestados;
     }
 
-    public void setLibrosPrestados(Map<Integer, String> librosPrestados) {
+    public void setLibrosPrestados(Map<Integer, Integer> librosPrestados) {
         this.librosPrestados = librosPrestados;
     }
 
@@ -98,10 +73,7 @@ public class Prestamo {
         this.estado = estado;
     }
 
-    public Prestamo() {
-    }
-
-    public Prestamo(Integer id, Integer usuarioId, String usuarioNombre, Map<Integer, String> librosPrestados, LocalDate fechaPrestamo, LocalDate fechaDevolucion, LocalDate fechaDevuelto, String estado) {
+    public Prestamo(Integer id, Integer usuarioId, String usuarioNombre, Map<Integer, Integer> librosPrestados, LocalDate fechaPrestamo, LocalDate fechaDevolucion, LocalDate fechaDevuelto, String estado) {
         this.id = id;
         this.usuarioId = usuarioId;
         this.usuarioNombre = usuarioNombre;
@@ -110,6 +82,10 @@ public class Prestamo {
         this.fechaDevolucion = fechaDevolucion;
         this.fechaDevuelto = fechaDevuelto;
         this.estado = estado;
+    }
+
+
+    public Prestamo() {
     }
 
     @Override
@@ -125,4 +101,28 @@ public class Prestamo {
                 ", estado='" + estado + '\'' +
                 '}';
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
+    private Integer usuarioId; // ID del usuario que realiza el préstamo
+
+    private String usuarioNombre; // Nombre del usuario al momento del préstamo
+
+    @ElementCollection
+    @CollectionTable(name = "prestamo_libros", joinColumns = @JoinColumn(name = "prestamo_id"))
+    @MapKeyColumn(name = "libro_id") // La clave del mapa será el ID del libro
+    @Column(name = "cantidad") // El valor del mapa será la cantidad prestada de ese libro
+    private Map<Integer, Integer> librosPrestados; // Mapa de [ID del libro : Cantidad prestada]
+
+    @Column(nullable = false)
+    private LocalDate fechaPrestamo;
+
+    private LocalDate fechaDevolucion; // Fecha esperada de devolución
+
+    private LocalDate fechaDevuelto; // Fecha real de devolución (puede ser null si aún no se devuelve)
+
+    private String estado;
 }

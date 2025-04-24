@@ -2,7 +2,7 @@ package com.example.nrs_libro.service.impl;
 
 import com.example.nrs_libro.entity.Libro;
 import com.example.nrs_libro.repository.LibroRepository;
-import com.example.nrs_libro.service.LibroService; // Asegúrate de tener esta interfaz
+import com.example.nrs_libro.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,8 +42,8 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    @Transactional // Asegura la atomicidad de la operación de reducción de stock
-    public void reducirStock(Integer libroId, Integer cantidad) {
+    @Transactional
+    public void decrementarStockLibro(Integer libroId, Integer cantidad) {
         Optional<Libro> libroOptional = libroRepository.findById(libroId);
         if (libroOptional.isPresent()) {
             Libro libro = libroOptional.get();
@@ -56,5 +56,10 @@ public class LibroServiceImpl implements LibroService {
         } else {
             throw new RuntimeException("No se encontró el libro con ID: " + libroId);
         }
+    }
+
+    @Override
+    public Optional<Libro> obtenerLibroPorId(Integer id) {
+        return libroRepository.findById(id);
     }
 }

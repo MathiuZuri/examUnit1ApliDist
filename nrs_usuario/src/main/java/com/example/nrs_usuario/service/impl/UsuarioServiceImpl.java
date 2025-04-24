@@ -46,7 +46,23 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Optional<Usuario> buscarPorEstado(String estado) {
+        return usuarioRepository.findByEstado(estado);
+    }
+
+    @Override
     public List<Usuario> listarPorTipo(String tipo) {
         return usuarioRepository.findByTipo(tipo);
     }
+
+    @Override
+    public List<Usuario> listarPorEstado(String estado) {
+        return usuarioRepository.findByTipo(estado);
+    }
+
+    @Override
+    public Optional<Usuario> obtenerUsuarioPorId(Integer id) {
+        return usuarioRepository.findById(id);
+    }
+
 }

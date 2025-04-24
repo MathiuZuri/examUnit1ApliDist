@@ -11,23 +11,23 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/libros") // Cambiamos la ruta base a /libros
+@RequestMapping("/libros")
 public class LibroController {
     @Autowired
-    private LibroService libroService; // Inyectamos LibroService
+    private LibroService libroService;
 
     @GetMapping()
-    public ResponseEntity<List<Libro>> list() { // Cambiamos a Libro
+    public ResponseEntity<List<Libro>> list() {
         return new ResponseEntity<>(libroService.listar(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Libro> save(@RequestBody Libro libro) { // Cambiamos a Libro
+    public ResponseEntity<Libro> save(@RequestBody Libro libro) {
         return new ResponseEntity<>(libroService.guardar(libro), HttpStatus.CREATED);
     }
 
     @PutMapping()
-    public ResponseEntity<Libro> update(@RequestBody Libro libro) { // Cambiamos a Libro
+    public ResponseEntity<Libro> update(@RequestBody Libro libro) {
         if (libroService.listarPorId(libro.getId()).isPresent()) {
             return new ResponseEntity<>(libroService.actualizar(libro), HttpStatus.OK);
         } else {
@@ -36,9 +36,9 @@ public class LibroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Libro> listById(@PathVariable(required = true) Integer id) { // Cambiamos a Libro
-        return libroService.listarPorId(id)
-                .map(libro -> new ResponseEntity<>(libro, HttpStatus.OK)) // Cambiamos a Libro
+    public ResponseEntity<Libro> obtenerLibroPorId(@PathVariable(required = true) Integer id) {
+        return libroService.obtenerLibroPorId(id)
+                .map(libro -> new ResponseEntity<>(libro, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -52,16 +52,23 @@ public class LibroController {
         }
     }
 
-    @PutMapping("/{id}/reducir-stock") // Nuevo endpoint para reducir stock
-    public ResponseEntity<?> reducirStock(@PathVariable Integer id, @RequestParam Integer cantidad) {
+    @GetMapping("/{id}/stock")
+    public ResponseEntity<Integer> obtenerStockLibro(@PathVariable Integer id) {
+        Optional<Libro> libroOptional = libroService.listarPorId(id);
+        return libroOptional.map(libro -> new ResponseEntity<>(libro.getStock(), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping("/{id}/decrementarStock")
+    public ResponseEntity<Void> decrementarStockLibro(@PathVariable Integer id, @RequestParam Integer cantidad) {
         Optional<Libro> libroOptional = libroService.listarPorId(id);
         if (libroOptional.isPresent()) {
             Libro libro = libroOptional.get();
             if (libro.getStock() >= cantidad) {
-                libroService.reducirStock(id, cantidad);
-                return ResponseEntity.ok().build();
+                libroService.decrementarStockLibro(id, cantidad);
+                return ResponseEntity.noContent().build();
             } else {
-                return ResponseEntity.badRequest().body("No hay suficiente stock.");
+                return ResponseEntity.badRequest().build();
             }
         } else {
             return ResponseEntity.notFound().build();

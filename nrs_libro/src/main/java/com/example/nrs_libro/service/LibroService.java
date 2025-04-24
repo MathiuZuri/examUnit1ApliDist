@@ -6,19 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LibroService {
-
     List<Libro> listar();
-
     Libro guardar(Libro libro);
-
     Libro actualizar(Libro libro);
-
     Optional<Libro> listarPorId(Integer id);
-
     void eliminarPorId(Integer id);
-
-    // Reemplazamos el método opcional 'decrementarStock' con 'reducirStock'
-    void reducirStock(Integer libroId, Integer cantidad);
-
-
+    void decrementarStockLibro(Integer id, Integer cantidad);
+    Optional<Libro> obtenerLibroPorId(Integer id); // Cambiado a Optional<Libro>
 }
