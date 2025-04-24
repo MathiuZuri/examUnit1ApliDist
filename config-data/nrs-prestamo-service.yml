@@ -1,0 +1,40 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: nrs-prestamo-service # Mantenemos el nombre del servicio
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/nrs_prestamo
+    username: root
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
+  h2:
+    console:
+      enabled: false # Deshabilitamos la consola de H2
+
+
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka
+  instance:
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 30

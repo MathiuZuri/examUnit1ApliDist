@@ -1,23 +1,9 @@
-package com.example.nrs_libro.entity;
+package com.example.nrs_prestamo.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-//@Data // Puedes usar Lombok para generar getters, setters, equals, hashCode y toString automáticamente
-public class Libro {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class LibroDto {
     private Integer id;
-
     private String titulo;
-
-    @Column(unique = true, nullable = false)
     private String isbn;
-
     private String autor;
     private String editorial;
     private Integer stock;
@@ -79,7 +65,10 @@ public class Libro {
         this.categoria = categoria;
     }
 
-    public Libro(Integer id, String titulo, String isbn, String autor, String editorial, Integer stock, String categoria) {
+    public LibroDto() {
+    }
+
+    public LibroDto(Integer id, String titulo, String isbn, String autor, String editorial, Integer stock, String categoria) {
         this.id = id;
         this.titulo = titulo;
         this.isbn = isbn;
@@ -89,11 +78,9 @@ public class Libro {
         this.categoria = categoria;
     }
 
-    public Libro() {}
-
     @Override
     public String toString() {
-        return "Libro{" +
+        return "LibroDto{" +
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
                 ", isbn='" + isbn + '\'' +

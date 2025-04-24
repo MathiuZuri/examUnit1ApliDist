@@ -1,7 +1,7 @@
 
 spring:
   application:
-    name: nrs-libro-service
+    name: nrs-prestamo-service
   profiles:
     active: development
   config:

@@ -1,4 +1,4 @@
-package com.example.nrs_libro.config;
+package com.example.nrs_prestamo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -13,9 +13,9 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("OPEN API MICROSERVICIO LIBRO")
+                        .title("OPEN API MICROSERVICIO PRESTAMO")
                         .version("0.0.1")
-                        .description("servicios web libro")
+                        .description("servicios web prestamo")
                         .termsOfService("http://swagger.io/terms")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));
     }

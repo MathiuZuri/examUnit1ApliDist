@@ -26,3 +26,7 @@ spring:
           uri: lb://nrs-usuario-service
           predicates:
             - Path=/usuarios/**
+        - id: nrs-prestamo-service
+          uri: lb://nrs-prestamo-service
+          predicates:
+            - Path=/prestamos/**
