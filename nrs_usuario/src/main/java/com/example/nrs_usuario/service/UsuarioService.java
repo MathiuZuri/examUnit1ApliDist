@@ -17,5 +17,5 @@ public interface UsuarioService {
 
     List<Usuario> listarPorTipo(String tipo);
     List<Usuario> listarPorEstado(String estado);
-    Optional<Usuario> obtenerUsuarioPorId(Integer id); // Nuevo método
+
 }

@@ -60,9 +60,5 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.findByTipo(estado);
     }
 
-    @Override
-    public Optional<Usuario> obtenerUsuarioPorId(Integer id) {
-        return usuarioRepository.findById(id);
-    }
 
 }

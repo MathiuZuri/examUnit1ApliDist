@@ -37,7 +37,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable(required = true) Integer id) {
+    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Integer id) {
         return usuarioService.listarPorId(id)
                 .map(usuario -> new ResponseEntity<>(usuario, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
